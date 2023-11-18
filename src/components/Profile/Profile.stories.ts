@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { rest } from "msw";
 
 import { Profile } from "./index";
 
@@ -22,4 +23,12 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const MockedSuccess: Story = {};
+export const MockedSuccess: Story = {
+  parameters: {
+    msw: [
+      rest.get("https://dummyjson.com/users/1", (_req, res, ctx) => {
+        return res(ctx.json(profilMockeData));
+      }),
+    ],
+  },
+};
